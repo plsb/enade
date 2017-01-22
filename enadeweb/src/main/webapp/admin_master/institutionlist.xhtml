@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/template/layout.xhtml">
+
+	<ui:define name="title">
+            Cidades
+    </ui:define>
+        
+	<ui:define name="body" >
+		<h:form  id="form">
+				<div class="ui-fluid">
+		            <h:panelGrid columns="2" cellpadding="10">
+					   <p:toolbar>
+					        <f:facet name="left">
+					        	 <p:commandButton type="btNew" value="Nova Instituição" 
+					        		action="#{binstitution.newInstituiton}" update="form" icon="ui-icon-document" />
+							        		
+					        </f:facet>					 
+				   	    </p:toolbar>							
+						<br />			
+												
+						<p:dataTable id="tbl" value="#{binstitution.list}" var="insti" 
+									 scrollHeight="200" rows="10" paginator="true"  
+									 emptyMessage="Não foram encontradas instituições."
+									 tableStyleClass="ui-table-columntoggle"
+									 reflow="true" filteredValue="#{binstitution.list}">
+								<f:facet name="header">
+					                   Lista de Instituições
+					            </f:facet>
+								                    
+					            <p:column id="ativo" headerText="" style="width:50px">
+									<h:outputText value="#{insti.stringAtivo}" />
+								</p:column>
+								
+								<p:column filterBy="#{insti.description}" id="description" headerText="Descrição"
+									 filterMatchMode="contains">
+									<h:outputText value="#{insti.description}" />
+								</p:column>
+													
+								<p:column style="width:50px">
+									<p:commandLink update=":form:documentPanel" oncomplete="PF('dlg').show()">
+										<h:graphicImage library="pictures" name="edit.png"
+											style="border:0" title="Editar Instituição" />
+										<f:setPropertyActionListener target="#{binstitution.institution}"
+												value="#{insti}" />
+									</p:commandLink>
+								</p:column>
+								
+								<p:column style="width:50px">
+									<h:commandLink action="#{binstitution.remove}"
+											onclick="if (!confirm('Confirma a exclusão da Instituição ?'))
+								                                                   return false;"
+											title="Excluir Instituição">
+										<h:graphicImage library="pictures" name="remove.png"
+													style="border:0" />
+										<f:setPropertyActionListener target="#{binstitution.institution}"
+												value="#{insti}" />
+										</h:commandLink>
+								</p:column>
+								
+						</p:dataTable>
+						
+				 </h:panelGrid>
+			</div>
+			 
+			 <div class="ui-fluid">
+			    <p:dialog header="Cadastro/Edição de Instituição" showEffect="fade" hideEffect="fade" resizable="false"
+			    													 modal="true" widgetVar="dlg" focus="description">
+			        
+			        <p:outputPanel id="documentPanel">
+			        	<h:panelGrid columns="1" cellpadding="10">
+			        		<h:inputHidden value="#{binstitution.institution.id}"/>
+					    	<p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
+					        <h:panelGrid columns="1">
+					                         
+					             <p:outputLabel value="Descrição da Instituição: *" for="description"/>
+					              <p:inputText id="description" label="Descrição" size="100"
+					                                 maxlength="50" value="#{binstitution.institution.description}"
+					                                 style="text-transform:uppercase">
+					              </p:inputText>
+					                                
+				                  <h:outputText value="Ativo: " />
+					      	      <p:selectBooleanCheckbox value="#{binstitution.institution.active}" />
+					                               
+					         </h:panelGrid>
+				             <br />
+				             <p:commandButton id="Confirmar" 
+				             				 actionListener="#{binstitution.save}" update="tbl" value="Salvar"/>
+					                                         
+				         	</h:panelGrid>
+				     </p:outputPanel>  
+			    </p:dialog>
+			 </div>
+			</h:form>
+			<script type="text/javascript">
+			    function handleLoginRequest(xhr, status, args) {
+			        if(args.validationFailed || !args.loggedIn) {
+			            PF('dlg').jq.effect("shake", {times:5}, 100);
+			        }
+			        else {
+			            PF('dlg').hide();
+			            $('#loginLink').fadeOut();
+			        }
+			    }
+			</script>
+			
+	</ui:define>
+</ui:composition>
+</html>

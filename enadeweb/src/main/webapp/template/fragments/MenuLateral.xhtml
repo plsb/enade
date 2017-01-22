@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <meta charset='utf-8'/>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+        
+    </h:head> 
+<body>
+	<ui:composition>
+		<aside class="aw-layout-sidebar js-content js-sidebar" >
+			<div class="aw-layout-sidebar__content " >
+
+				<nav class="aw-menu  js-menu">
+					<h:form>
+					     <p:menu toggleable="true" style="width:210px">
+					     <p:menuitem value="Inicio" url="/template/layout.jsf" icon="ui-icon-home" />
+					        <p:submenu label="Cadastros">
+					            
+					        </p:submenu>
+					        <p:submenu label="Consultas">
+					            
+					        </p:submenu>
+					        <p:submenu label="Àrea Administrativa">
+					            <p:menuitem value="Instituições" url="/admin_master/institutionlist.jsf" icon="iconeCity" />
+					            <p:menuitem value="Usuários" url="/admin_master/userlist.jsf" icon="iconeUsuario" />
+					        </p:submenu>
+   						</p:menu>
+					    
+					</h:form>
+					</nav>
+				</div>
+					
+				</aside>
+
+
+	</ui:composition>
+</body>
+
+</html>

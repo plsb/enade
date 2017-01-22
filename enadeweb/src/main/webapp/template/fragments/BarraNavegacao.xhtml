@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <meta charset='utf-8'/>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    </h:head> 
+<body>
+	<ui:composition>
+		<nav class="navbar  navbar-fixed-top  navbar-default  js-sticky-reference"
+			id="main-navbar" >
+			<div class="container-fluid">
+
+				<div class="navbar-header">
+					<a class="navbar-brand  hidden-xs" href="#">
+					</a>
+
+					<ul class="nav  navbar-nav">
+						<li><a href="#" class="js-sidebar-toggle"><i
+								class="fa  fa-bars"></i></a></li>
+					</ul>
+				</div>
+
+				<ul class="nav navbar-nav  navbar-right">
+					<li><a href="document.location='#{request.contextPath}/j_spring_security_logout" title="Sair"><em class="fa  fa-sign-out"></em></a></li>
+				</ul>
+
+			</div>
+		</nav>
+	</ui:composition>
+</body>
+
+</html>

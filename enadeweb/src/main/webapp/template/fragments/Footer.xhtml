@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <meta charset='utf-8'/>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    </h:head> 
+<body>
+	<ui:composition>
+		<footer class="aw-layout-footer   js-content">
+			<div class="container-fluid">
+				<span class="aw-footer-disclaimer">
+				<p:outputLabel value=" #{contextBean.user.city.description} - #{contextBean.user.city.state}."  /> 
+				innoble solutions.
+					Todos os direitos reservados.</span>
+			</div>
+		</footer>
+	</ui:composition>
+</body>
+</html>
