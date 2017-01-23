@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/template/layout.xhtml">
+
+	<ui:define name="title">
+            Cursos
+    </ui:define>
+        
+	<ui:define name="body" >
+		<h:form  id="form">
+				<div class="ui-fluid">
+		            <h:panelGrid columns="2" cellpadding="10">
+					   <p:toolbar>
+					        <f:facet name="left">
+					        	 <p:commandButton type="btNew" value="Novo Curso" 
+					        		action="#{bcourse.newCourse}" update="form" icon="ui-icon-document" />
+							        		
+					        </f:facet>					 
+				   	    </p:toolbar>							
+						<br />			
+												
+						<p:dataTable id="tbl" value="#{bcourse.list}" var="course" 
+									 scrollHeight="200" rows="10" paginator="true"  
+									 emptyMessage="Não foram encontrados cursos."
+									 tableStyleClass="ui-table-columntoggle"
+									 reflow="true" >
+								<f:facet name="header">
+					                   Lista de Cursos
+					            </f:facet>
+								                    
+								<p:column filterBy="#{course.description}" id="name" headerText="Descrição de Curso"
+									 filterMatchMode="contains">
+									<h:outputText value="#{course.description}" />
+								</p:column>
+								
+								<p:column id="coord" headerText="Coordenador Admin.">
+									<h:outputText value="#{course.coordAdmin.name}" />
+								</p:column>
+								
+								<p:column id="inst" headerText="Instituição">
+									<h:outputText value="#{course.institution.description}" />
+								</p:column>
+								
+								<p:column style="width:50px">
+									<p:commandLink update=":form:documentPanel" oncomplete="PF('dlg').show()">
+										<h:graphicImage library="pictures" name="edit.png"
+											style="border:0" title="Editar Curso" />
+										<f:setPropertyActionListener target="#{bcourse.course}"
+												value="#{course}" />
+									</p:commandLink>
+								</p:column>
+								
+								<p:column style="width:50px">
+									<h:commandLink action="#{bcourse.remove}"
+											onclick="if (!confirm('Confirma a exclusão do Curso ?'))
+								                                                   return false;"
+											title="Excluir Curso">
+										<h:graphicImage library="pictures" name="remove.png"
+													style="border:0" />
+										<f:setPropertyActionListener target="#{bcourse.course}"
+												value="#{course}" />
+										</h:commandLink>
+								</p:column>
+								
+						</p:dataTable>
+						
+				 </h:panelGrid>
+			</div>
+			 
+			 <div class="ui-fluid">
+			    <p:dialog position="center" header="Cadastro/Edição de Cyrso" showEffect="fade" hideEffect="fade" resizable="false"
+			    													 modal="true" widgetVar="dlg" focus="name">
+			        
+			        <p:outputPanel id="documentPanel">
+			        	<h:panelGrid columns="1" cellpadding="10">
+			        		<h:inputHidden value="#{bcourse.course.id}"/>
+			        		<p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
+                                <p:outputLabel value="Descrição: *" for="name"/>
+                                <p:inputText id="name" label="name" size="100"
+                                             maxlength="100" value="#{bcourse.course.description}"
+                                             style="text-transform:uppercase">
+                                </p:inputText>
+                                
+                                <p:outputLabel value="Coordenador Administrativo: *" for="coord"/>
+		                        <p:selectOneMenu id="coord" value="#{bcourse.course.coordAdmin}" 
+		                                         style="width:200px">
+		                            <f:selectItem itemLabel=" " itemValue="" />
+		                            <f:selectItems  value="#{bcourse.userSelect}"/>					 			
+		                        </p:selectOneMenu>
+                                
+                            <br />
+
+                            <p:commandButton id="Linha1" actionListener="#{bcourse.save}" update="tbl" value="Salvar"/>
+                           
+                        </h:panelGrid>
+				     </p:outputPanel>  
+			    </p:dialog>
+			 </div>
+			</h:form>
+			
+	</ui:define>
+</ui:composition>
+</html>

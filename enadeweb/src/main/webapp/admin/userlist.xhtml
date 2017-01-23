@@ -19,13 +19,13 @@
 					   <p:toolbar>
 					        <f:facet name="left">
 					        	 <p:commandButton type="btNew" value="Novo Usuário" 
-					        		action="#{buseradminmaster.newUser}" update="form" icon="ui-icon-document" />
+					        		action="#{buseradmin.newUser}" update="form" icon="ui-icon-document" />
 							        		
 					        </f:facet>					 
 				   	    </p:toolbar>							
 						<br />			
 												
-						<p:dataTable id="tbl" value="#{buseradminmaster.list}" var="user" 
+						<p:dataTable id="tbl" value="#{buseradmin.list}" var="user" 
 									 scrollHeight="200" rows="10" paginator="true"  
 									 emptyMessage="Não foram encontrados usuários."
 									 tableStyleClass="ui-table-columntoggle"
@@ -49,10 +49,19 @@
 								</p:column>
 								
 								<p:column style="width:50px">
-									<p:commandLink action="#{buseradminmaster.habilitaDesabilita('ROLE_ADMIN')}" update="tbl">
-										<h:graphicImage library="pictures" name="admin_24_#{user.roleAdmin}.png"
-											style="border:0" title="Habilitar/Desabilitar Administrador" />
-										<f:setPropertyActionListener target="#{buseradminmaster.user}"
+									<p:commandLink action="#{buseradmin.habilitaDesabilita('ROLE_PROF')}" update="tbl">
+										<h:graphicImage library="pictures" name="professor_24_#{user.roleProfessor}.png"
+											style="border:0" title="Habilitar/Desabilitar Professor" />
+										<f:setPropertyActionListener target="#{buseradmin.user}"
+												value="#{user}" />
+									</p:commandLink>
+								</p:column>
+								
+								<p:column style="width:50px">
+									<p:commandLink action="#{buseradmin.habilitaDesabilita('ROLE_COORD_ADMIN')}" update="tbl">
+										<h:graphicImage library="pictures" name="boss_24_#{user.roleCoordAdministrativo}.png"
+											style="border:0" title="Habilitar/Desabilitar Coordenador Admin." />
+										<f:setPropertyActionListener target="#{buseradmin.user}"
 												value="#{user}" />
 									</p:commandLink>
 								</p:column>
@@ -61,19 +70,19 @@
 									<p:commandLink update=":form:documentPanel" oncomplete="PF('dlg').show()">
 										<h:graphicImage library="pictures" name="edit.png"
 											style="border:0" title="Editar Usuário" />
-										<f:setPropertyActionListener target="#{buseradminmaster.user}"
+										<f:setPropertyActionListener target="#{buseradmin.user}"
 												value="#{user}" />
 									</p:commandLink>
 								</p:column>
 								
 								<p:column style="width:50px">
-									<h:commandLink action="#{buseradminmaster.remove}"
+									<h:commandLink action="#{buseradmin.remove}"
 											onclick="if (!confirm('Confirma a exclusão do Usuário ?'))
 								                                                   return false;"
 											title="Excluir Usuário">
 										<h:graphicImage library="pictures" name="remove.png"
 													style="border:0" />
-										<f:setPropertyActionListener target="#{buseradminmaster.user}"
+										<f:setPropertyActionListener target="#{buseradmin.user}"
 												value="#{user}" />
 										</h:commandLink>
 								</p:column>
@@ -89,38 +98,31 @@
 			        
 			        <p:outputPanel id="documentPanel">
 			        	<h:panelGrid columns="1" cellpadding="10">
-			        		<h:inputHidden value="#{buseradminmaster.user.id}"/>
+			        		<h:inputHidden value="#{buseradmin.user.id}"/>
 			        		<p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
                                 <p:outputLabel value="Nome: *" for="name"/>
                                 <p:inputText id="name" label="name" size="100"
-                                             maxlength="100" value="#{buseradminmaster.user.name}"
+                                             maxlength="100" value="#{buseradmin.user.name}"
                                              style="text-transform:uppercase">
                                 </p:inputText>
                                 
                                 <p:outputLabel value="Login: *" for="login"/>
                                 <p:inputText id="login" label="login" size="50"
-                                             maxlength="50" value="#{buseradminmaster.user.login}">
+                                             maxlength="50" value="#{buseradmin.user.login}">
                                 </p:inputText>
-                                
-                                <p:outputLabel value="Instituição: *" for="institution"/>
-		                        <p:selectOneMenu id="institution" value="#{buseradminmaster.user.intitution}" 
-		                                         style="width:200px">
-		                            <f:selectItem itemLabel=" " itemValue="" />
-		                            <f:selectItems  value="#{buseradminmaster.institutionSelect}"/>					 			
-		                        </p:selectOneMenu>                                
-                                
+                              
                                 <p:outputLabel value="Senha: *" for="senha"/>
-                                <p:password id="senha" value="#{buseradminmaster.user.password}" />
+                                <p:password id="senha" value="#{buseradmin.user.password}" />
                                 
                                 <p:outputLabel value="Confirmar Senha: *" for="confirmarSenha"/>
-                                <p:password id="confirmarSenha" value="#{buseradminmaster.confirmPassword}" />
+                                <p:password id="confirmarSenha" value="#{buseradmin.confirmPassword}" />
                                 
                                 <h:outputText value="Ativo: " />
-        						<p:selectBooleanCheckbox value="#{buseradminmaster.user.active}" />
+        						<p:selectBooleanCheckbox value="#{buseradmin.user.active}" />
 
                             <br />
 
-                            <p:commandButton id="Linha1" actionListener="#{buseradminmaster.save}" update="tbl" value="Salvar"/>
+                            <p:commandButton id="Linha1" actionListener="#{buseradmin.save}" update="tbl" value="Salvar"/>
                            
                         </h:panelGrid>
 				     </p:outputPanel>  

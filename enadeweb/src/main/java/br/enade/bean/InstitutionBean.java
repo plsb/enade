@@ -11,7 +11,7 @@ import java.util.List;
 import javax.faces.application.Application;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
+import javax.faces.bean.ViewScoped;
 import javax.faces.component.UIViewRoot;
 import javax.faces.context.FacesContext;
 
@@ -27,7 +27,7 @@ import br.enade.model.Institution;
  * @author Pedro Saraiva
  */
 @ManagedBean(name = "binstitution")
-@RequestScoped
+@ViewScoped
 public class InstitutionBean implements Serializable {
 
 	private static final long serialVersionUID = 196309108760682508L;

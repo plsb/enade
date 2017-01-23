@@ -26,6 +26,7 @@
         <!-- fim configuration pool via c3p0-->          
         <mapping class="br.enade.model.Institution"/>
         <mapping class="br.enade.model.User"/>
+        <mapping class="br.enade.model.Course"/>
         
     </session-factory>
 </hibernate-configuration>

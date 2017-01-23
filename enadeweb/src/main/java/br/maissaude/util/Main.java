@@ -5,6 +5,10 @@
  */
 package br.maissaude.util;
 
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
 /**
  *
  * @author Pedro Saraiva
@@ -12,7 +16,19 @@ package br.maissaude.util;
 public class Main {
     
     public static void main(String[] args) {
-        new HibernateUtil().getSessionFactory().openSession();
+//        new HibernateUtil().getSessionFactory().openSession();
+        String s1 = "p";
+        MessageDigest md;
+		try {
+			md = MessageDigest.getInstance("MD5");
+			BigInteger hash = new BigInteger(1, md.digest(s1.getBytes()));
+	        String s2 = hash.toString(16);
+	        System.out.println(s2);
+		} catch (NoSuchAlgorithmException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        
     }
     
 }

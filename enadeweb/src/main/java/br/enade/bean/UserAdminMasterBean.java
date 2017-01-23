@@ -12,7 +12,7 @@ import java.util.List;
 import javax.faces.application.Application;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
+import javax.faces.bean.ViewScoped;
 import javax.faces.component.UIViewRoot;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
@@ -29,16 +29,14 @@ import br.maissaude.util.Util;
  *
  * @author Pedro Saraiva
  */
-@ManagedBean(name = "buser")
-@RequestScoped
-public class UserBean {
+@ManagedBean(name = "buseradminmaster")
+@ViewScoped
+public class UserAdminMasterBean {
 
     private User user = new User();
     private String confirmPassword;
     private List<User> list;
     private List<SelectItem> institutionSelect;
-    private FacesContext context = FacesContext.getCurrentInstance();
-    private static List<String> permissionAux;
 
     public List<SelectItem> getInstitutionSelect() {
         if (this.institutionSelect == null) {
@@ -103,7 +101,6 @@ public class UserBean {
     }
 
     public String edit() {
-    	permissionAux = user.getPermission();
         return "";
     }
 
@@ -130,8 +127,6 @@ public class UserBean {
         UserDAO uDAO = new UserDAO();
         if (user.getId() == null) {
         	user.setActive(true);
-        	user.setPermission(new ArrayList<String>());
-            user.getPermission().add("ROLE_USER");
             
         	if(!uDAO.checkExists("login", user.getLogin()).isEmpty()){
         		FacesContext.getCurrentInstance().
@@ -147,7 +142,6 @@ public class UserBean {
 								+ ", cadastrado com sucesso!",""));
         	}
         } else {
-        	user.setPermission(permissionAux);
         	if(!uDAO.checkExists("login", user.getLogin()).isEmpty()){
         		User userCad = uDAO.checkExists("login", user.getLogin()).get(0);
         		if(!userCad.getId().equals(user.getId())){
@@ -174,7 +168,7 @@ public class UserBean {
 		return "";
     }
 
-    public String delete() {
+    public String remove() {
         UserDAO uDAO = new UserDAO();
         if(uDAO.remove(this.user)){
         	FacesContext.getCurrentInstance().
@@ -220,6 +214,27 @@ public class UserBean {
         UIViewRoot viewRoot = viewHandler.createView(context, context.getViewRoot().getViewId());  
         context.setViewRoot(viewRoot);  
         context.renderResponse();  
+    }
+    
+    public String habilitaDesabilita(String permissao){
+    	if(user.getPermission()==null){
+    		user.setPermission(new ArrayList<String>());
+    	}
+    	if(user.getPermission().contains(permissao)){
+    		user.getPermission().remove(permissao);
+    		FacesContext.getCurrentInstance().
+				addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,
+							"Desabilitado usuário administrador: "+user.getName(),""));
+    	} else {
+    		user.getPermission().add(permissao);
+    		FacesContext.getCurrentInstance().
+				addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,
+						"Habilitado usuário administrador: "+user.getName(),""));
+    	}
+    	UserDAO uDAO = new UserDAO();
+    	uDAO.update(user);
+    	refresh();
+    	return null;
     }
 
 

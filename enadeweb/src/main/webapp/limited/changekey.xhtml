@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+
+
+
+    <ui:composition template="/template/layout.xhtml">
+
+        <ui:define name="title">
+            Mudar Senha
+        </ui:define>
+
+
+
+        <ui:define name="body">
+
+            <h:form id="form" >
+
+                <div class="ui-fluid">
+                        <p:panel id="basic" header="Mudar Senha" style="width:500px">
+                            <h:panelGrid columns="1">
+                                
+                                <p:outputLabel value="Senha Atual: *" for="senhaAnt"/>
+                                <p:password id="senhaAnt" size="80" value="#{bchangeKey.senhaAnterior}" 
+                                			title="Informe a senha atual."/>
+                                 <p:tooltip for="senhaAnt" showEvent="focus" hideEvent="blur" />
+                                
+                                <p:outputLabel value="Nova Senha: *" for="senha"/>
+                                <p:password id="senha" size="80" value="#{bchangeKey.novaSenha}"
+                                			title="A nova senha deve ter no minimo 6 caracteres."/>
+                                <p:tooltip for="senha" showEvent="focus" hideEvent="blur" />
+                                
+                                <p:outputLabel value="Confirmar Senha: *" for="confirmarSenha"/>
+                                <p:password id="confirmarSenha" size="80" value="#{bchangeKey.confirmarSenha}" 
+                                		title="Informe a nova senha novamente."/>
+                                <p:tooltip for="confirmarSenha" showEvent="focus" hideEvent="blur" />
+								<br />
+								<p:commandButton id="Linha1" update="form" action="#{bchangeKey.save}" value="Salvar"/>
+                            </h:panelGrid>
+                            
+
+                            
+                        </p:panel>
+                    </div>
+            </h:form>
+
+
+        </ui:define>
+    </ui:composition>
+</html>

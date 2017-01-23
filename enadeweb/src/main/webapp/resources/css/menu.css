@@ -6,15 +6,15 @@
 	 background-image: url("#{resource['pictures/user_16.png']}")  
         !important;  
 }
-.iconeStreet {
-	 background-image: url("#{resource['pictures/street_16.png']}")  
+.iconeSair {
+	 background-image: url("#{resource['pictures/exit_16.png']}")  
         !important;  
 }
-.iconeDistrict {
-	 background-image: url("#{resource['pictures/district_16.png']}")  
+.iconeMudarSenha {
+	 background-image: url("#{resource['pictures/key_16.png']}")  
         !important;  
 }
-.iconeCitizen {
-	 background-image: url("#{resource['pictures/person_16.png']}")  
+.iconeCourse {
+	 background-image: url("#{resource['pictures/course_16.png']}")  
         !important;  
 }

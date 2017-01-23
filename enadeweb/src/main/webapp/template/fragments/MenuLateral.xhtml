@@ -19,15 +19,20 @@
 					<h:form>
 					     <p:menu toggleable="true" style="width:210px">
 					     <p:menuitem value="Inicio" url="/template/layout.jsf" icon="ui-icon-home" />
-					        <p:submenu label="Cadastros">
+					        <p:submenu label="Coordenador" rendered="#{request.isUserInRole('ROLE_COORD_ADMIN')}">
 					            
 					        </p:submenu>
-					        <p:submenu label="Consultas">
-					            
+					        <p:submenu label="Administrador" rendered="#{request.isUserInRole('ROLE_ADMIN')}">
+					            <p:menuitem value="Cursos" url="/admin/courselist.jsf" icon="iconeCourse"/>
+					            <p:menuitem value="Usuários" url="/admin/userlist.jsf" icon="iconeUsuario" />
 					        </p:submenu>
-					        <p:submenu label="Àrea Administrativa">
+					        <p:submenu label="Àrea Administrativa Master" rendered="#{request.isUserInRole('ROLE_ADMIN_MASTER')}">
 					            <p:menuitem value="Instituições" url="/admin_master/institutionlist.jsf" icon="iconeCity" />
 					            <p:menuitem value="Usuários" url="/admin_master/userlist.jsf" icon="iconeUsuario" />
+					        </p:submenu>
+					        <p:submenu label="Opções">
+					            <p:menuitem value="Mudar Senha" url="/limited/changekey.jsf"  icon="iconeMudarSenha"/>
+					            <p:menuitem value="Sair" url="document.location='#{request.contextPath}/j_spring_security_logout" icon="iconeSair"/>
 					        </p:submenu>
    						</p:menu>
 					    

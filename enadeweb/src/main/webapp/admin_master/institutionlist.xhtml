@@ -9,7 +9,7 @@
 <ui:composition template="/template/layout.xhtml">
 
 	<ui:define name="title">
-            Cidades
+            Instituições
     </ui:define>
         
 	<ui:define name="body" >
@@ -29,7 +29,7 @@
 									 scrollHeight="200" rows="10" paginator="true"  
 									 emptyMessage="Não foram encontradas instituições."
 									 tableStyleClass="ui-table-columntoggle"
-									 reflow="true" filteredValue="#{binstitution.list}">
+									 reflow="true">
 								<f:facet name="header">
 					                   Lista de Instituições
 					            </f:facet>
@@ -70,7 +70,7 @@
 			</div>
 			 
 			 <div class="ui-fluid">
-			    <p:dialog header="Cadastro/Edição de Instituição" showEffect="fade" hideEffect="fade" resizable="false"
+			    <p:dialog position="center" header="Cadastro/Edição de Instituição" showEffect="fade" hideEffect="fade" resizable="false"
 			    													 modal="true" widgetVar="dlg" focus="description">
 			        
 			        <p:outputPanel id="documentPanel">
@@ -98,17 +98,6 @@
 			    </p:dialog>
 			 </div>
 			</h:form>
-			<script type="text/javascript">
-			    function handleLoginRequest(xhr, status, args) {
-			        if(args.validationFailed || !args.loggedIn) {
-			            PF('dlg').jq.effect("shake", {times:5}, 100);
-			        }
-			        else {
-			            PF('dlg').hide();
-			            $('#loginLink').fadeOut();
-			        }
-			    }
-			</script>
 			
 	</ui:define>
 </ui:composition>

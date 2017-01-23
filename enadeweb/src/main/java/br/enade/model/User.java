@@ -120,6 +120,27 @@ public class User implements Serializable {
     public void setPermission(List<String> permission) {
         this.permission = permission;
     }
+    
+    public boolean getRoleAdmin(){
+    	if(permission!=null){
+    		return permission.contains("ROLE_ADMIN");
+    	}
+    	return false;
+    }
+    
+    public boolean getRoleCoordAdministrativo(){
+    	if(permission!=null){
+    		return permission.contains("ROLE_COORD_ADMIN");
+    	}
+    	return false;
+    }
+    
+    public boolean getRoleProfessor(){
+    	if(permission!=null){
+    		return permission.contains("ROLE_PROF");
+    	}
+    	return false;
+    }
 
 	@Override
 	public int hashCode() {
