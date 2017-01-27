@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/template/layout.xhtml">
+
+	<ui:define name="title">
+            Semestres
+    </ui:define>
+        
+	<ui:define name="body" >
+		<h:form  id="form">
+				<div class="ui-fluid">
+		            <h:panelGrid columns="2" cellpadding="10">
+					   <p:toolbar>
+					        <f:facet name="left">
+					        	 <p:commandButton type="btNew" value="Novo Matriz" 
+					        		action="#{bmatriz.newMatriz}" update="form" icon="ui-icon-document" />
+							        		
+					        </f:facet>					 
+				   	    </p:toolbar>							
+						<br />			
+												
+						<p:dataTable id="tbl" value="#{bmatriz.list}" var="matriz" 
+									 scrollHeight="200" rows="10" paginator="true"  
+									 emptyMessage="Não foram encontradas matrizes."
+									 tableStyleClass="ui-table-columntoggle"
+									 reflow="true" >
+								<f:facet name="header">
+					                   Lista de Matrizes
+					            </f:facet>
+								                    
+								<p:column filterBy="#{matriz.description}" id="name" headerText="Descrição da Matriz"
+									 filterMatchMode="contains">
+									<h:outputText value="#{matriz.description}" />
+								</p:column>
+								
+								<p:column id="coord" headerText="Curso" filterBy="#{matriz.course.description}" >
+									<h:outputText value="#{matriz.course.description}" />
+								</p:column>
+								
+								<p:column style="width:50px">
+									<p:commandLink update=":form:documentPanelView" oncomplete="PF('dlgView').show()">
+										<h:graphicImage library="pictures" name="view_24.png"
+											style="border:0" title="Visualizar Matriz" />
+										<f:setPropertyActionListener target="#{bmatriz.matriz}"
+												value="#{matriz}"/>
+									</p:commandLink>
+								</p:column>								
+								
+								<p:column style="width:50px">
+									<p:commandLink update=":form:documentPanel" oncomplete="PF('dlg').show()">
+										<h:graphicImage library="pictures" name="edit.png"
+											style="border:0" title="Editar Matriz" />
+										<f:setPropertyActionListener target="#{bmatriz.matriz}"
+												value="#{matriz}" />
+									</p:commandLink>
+								</p:column>
+								
+								<p:column style="width:50px">
+									<h:commandLink action="#{bmatriz.remove}"
+											onclick="if (!confirm('Confirma a exclusão da Matriz ?'))
+								                                                   return false;"
+											title="Excluir Matriz">
+										<h:graphicImage library="pictures" name="remove.png"
+													style="border:0" />
+										<f:setPropertyActionListener target="#{bmatriz.matriz}"
+												value="#{matriz}" />
+										</h:commandLink>
+								</p:column>
+								
+						</p:dataTable>
+						
+				 </h:panelGrid>
+			</div>
+			 
+			 <div class="ui-fluid">
+			    <p:dialog position="center" header="Cadastro/Edição de Matriz" showEffect="fade" hideEffect="fade" resizable="false"
+			    													 modal="true" widgetVar="dlg" focus="name">
+			        
+			        <p:outputPanel id="documentPanel">
+			        	<h:panelGrid columns="1" cellpadding="10">
+			        		<h:inputHidden value="#{bmatriz.matriz.id}"/>
+			        		<p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
+                                <p:outputLabel value="Descrição: *" for="name"/>
+                                <p:inputText id="name" label="name" size="100"
+                                             maxlength="100" value="#{bmatriz.matriz.description}"
+                                             style="text-transform:uppercase">
+                                </p:inputText>
+                                
+                                <p:outputLabel value="Curso: *" for="curso"/>
+		                        <p:selectOneMenu id="curso" value="#{bmatriz.matriz.course}" 
+		                                         style="width:200px">
+		                            <f:selectItem itemLabel=" " itemValue="" />
+		                            <f:selectItems  value="#{bmatriz.courseSelect}"/>					 			
+		                        </p:selectOneMenu>
+                                
+                            <br />
+
+                            <p:commandButton id="Linha1" actionListener="#{bmatriz.save}" update="tbl" value="Salvar"/>
+                           
+                        </h:panelGrid>
+				     </p:outputPanel>  
+			    </p:dialog>
+			 </div>
+			 
+			 <div class="ui-fluid">
+			    <p:dialog position="center" header="Visualizar Matriz" showEffect="fade" hideEffect="fade" resizable="false"
+			    													 modal="true" widgetVar="dlgView" focus="name">
+			   			<p:outputPanel id="documentPanelView">
+				   			<h:panelGrid columns="2">
+									<p:outputLabel value="Disciplina: *" for="disc"/>
+				                        <p:selectOneMenu id="disc" value="#{bmatriz.matriz.course}" 
+				                                         style="width:200px">
+				                            <f:selectItem itemLabel=" " itemValue="" />
+				                            <f:selectItems  value="#{bmatriz.courseSelect}"/>					 			
+			                        </p:selectOneMenu>
+			                        
+			                        <p:outputLabel value="Semestre: *" for="semes"/>
+				                        <p:selectOneMenu id="semes" value="#{bmatriz.matriz.course}" 
+				                                         style="width:200px">
+				                            <f:selectItem itemLabel=" " itemValue="" />
+				                            <f:selectItems  value="#{bmatriz.semesterSelect}"/>					 			
+			                        </p:selectOneMenu>
+			                        
+			                        <p:outputLabel value="Professor: *" for="prof"/>
+				                        <p:selectOneMenu id="prof" value="#{bmatriz.matriz.course}" 
+				                                         style="width:200px">
+				                            <f:selectItem itemLabel=" " itemValue="" />
+				                            <f:selectItems  value="#{bmatriz.courseSelect}"/>					 			
+			                        </p:selectOneMenu>
+			                </h:panelGrid>      
+							<br />
+							<p:dataTable id="tblView" value="#{bmatriz.list}" var="matriz" 
+										 scrollHeight="100" rows="5" paginator="true"  
+										 emptyMessage="Não foram encontradas matrizes."
+										 tableStyleClass="ui-table-columntoggle"
+										 reflow="true" style="width:600px">
+									
+							</p:dataTable>
+						</p:outputPanel>
+				</p:dialog>
+			</div>
+			</h:form>
+			
+	</ui:define>
+</ui:composition>
+</html>

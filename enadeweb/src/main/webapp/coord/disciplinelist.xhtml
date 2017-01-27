@@ -9,7 +9,7 @@
 <ui:composition template="/template/layout.xhtml">
 
 	<ui:define name="title">
-            Cursos
+            Semestres
     </ui:define>
         
 	<ui:define name="body" >
@@ -18,53 +18,50 @@
 		            <h:panelGrid columns="2" cellpadding="10">
 					   <p:toolbar>
 					        <f:facet name="left">
-					        	 <p:commandButton type="btNew" value="Novo Curso" 
-					        		action="#{bcourse.newCourse}" update="form" icon="ui-icon-document" />
+					        	 <p:commandButton type="btNew" value="Nova Disciplina" 
+					        		action="#{bdiscipline.newDiscipline}" update="form" icon="ui-icon-document" />
 							        		
 					        </f:facet>					 
 				   	    </p:toolbar>							
 						<br />			
 												
-						<p:dataTable id="tbl" value="#{bcourse.list}" var="course" 
+						<p:dataTable id="tbl" value="#{bdiscipline.list}" var="disc" 
 									 scrollHeight="200" rows="10" paginator="true"  
-									 emptyMessage="Não foram encontrados cursos."
+									 emptyMessage="Não foram encontradas disciplinas."
 									 tableStyleClass="ui-table-columntoggle"
 									 reflow="true" >
 								<f:facet name="header">
-					                   Lista de Cursos
+					                   Lista de Disciplinas
 					            </f:facet>
 								                    
-								<p:column filterBy="#{course.description}" id="name" headerText="Descrição de Curso"
+								<p:column filterBy="#{disc.description}" id="name" headerText="Descrição de Disciplina"
 									 filterMatchMode="contains">
-									<h:outputText value="#{course.description}" />
+									<h:outputText value="#{disc.description}" />
 								</p:column>
 								
-								<p:column id="coord" headerText="Coordenador Admin.">
-									<h:outputText value="#{course.coordAdmin.name}" />
+								<p:column id="coord" headerText="Curso" filterBy="#{disc.course.description}" >
+									<h:outputText value="#{disc.course.description}" />
 								</p:column>
 								
-								<p:column id="inst" headerText="Instituição">
-									<h:outputText value="#{course.institution.description}" />
-								</p:column>
 								
 								<p:column style="width:50px">
 									<p:commandLink update=":form:documentPanel" oncomplete="PF('dlg').show()">
 										<h:graphicImage library="pictures" name="edit.png"
-											style="border:0" title="Editar Curso" />
-										<f:setPropertyActionListener target="#{bcourse.course}"
-												value="#{course}" />
+											style="border:0" title="Editar Disciplina" />
+										<f:setPropertyActionListener target="#{bdiscipline.discipline}"
+												value="#{disc}" />
 									</p:commandLink>
 								</p:column>
 								
 								<p:column style="width:50px">
-									<h:commandLink action="#{bcourse.remove}"
-											onclick="if (!confirm('Confirma a exclusão do Curso ?'))
+									<h:commandLink action="#{bdiscipline.remove}"
+											onclick="if (!confirm('Confirma a exclusão da Disciplina ?'))
 								                                                   return false;"
-											title="Excluir Curso">
+											title="Excluir Disciplina">
 										<h:graphicImage library="pictures" name="remove.png"
 													style="border:0" />
-										<f:setPropertyActionListener target="#{bcourse.course}"
-												value="#{course}" />
+										<f:setPropertyActionListener target="#{bdiscipline.discipline}"
+												value="#{disc}" />
 										</h:commandLink>
 								</p:column>
 								
@@ -74,29 +71,29 @@
 			</div>
 			 
 			 <div class="ui-fluid">
-			    <p:dialog position="center" header="Cadastro/Edição de Curso" showEffect="fade" hideEffect="fade" resizable="false"
+			    <p:dialog position="center" header="Cadastro/Edição de Disciplina" showEffect="fade" hideEffect="fade" resizable="false"
 			    													 modal="true" widgetVar="dlg" focus="name">
 			        
 			        <p:outputPanel id="documentPanel">
 			        	<h:panelGrid columns="1" cellpadding="10">
-			        		<h:inputHidden value="#{bcourse.course.id}"/>
+			        		<h:inputHidden value="#{bdiscipline.discipline.id}"/>
 			        		<p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
                                 <p:outputLabel value="Descrição: *" for="name"/>
                                 <p:inputText id="name" label="name" size="100"
-                                             maxlength="100" value="#{bcourse.course.description}"
+                                             maxlength="100" value="#{bdiscipline.discipline.description}"
                                              style="text-transform:uppercase">
                                 </p:inputText>
                                 
-                                <p:outputLabel value="Coordenador Administrativo: *" for="coord"/>
-		                        <p:selectOneMenu id="coord" value="#{bcourse.course.coordAdmin}" 
+                                <p:outputLabel value="Curso: *" for="curso"/>
+		                        <p:selectOneMenu id="curso" value="#{bdiscipline.discipline.course}" 
 		                                         style="width:200px">
 		                            <f:selectItem itemLabel=" " itemValue="" />
-		                            <f:selectItems  value="#{bcourse.userSelect}"/>					 			
+		                            <f:selectItems  value="#{bdiscipline.courseSelect}"/>					 			
 		                        </p:selectOneMenu>
                                 
                             <br />
 
-                            <p:commandButton id="Linha1" actionListener="#{bcourse.save}" update="tbl" value="Salvar"/>
+                            <p:commandButton id="Linha1" actionListener="#{bdiscipline.save}" update="tbl" value="Salvar"/>
                            
                         </h:panelGrid>
 				     </p:outputPanel>  

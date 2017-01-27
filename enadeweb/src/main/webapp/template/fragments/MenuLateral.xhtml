@@ -20,7 +20,9 @@
 					     <p:menu toggleable="true" style="width:210px">
 					     <p:menuitem value="Inicio" url="/template/layout.jsf" icon="ui-icon-home" />
 					        <p:submenu label="Coordenador" rendered="#{request.isUserInRole('ROLE_COORD_ADMIN')}">
-					            
+					            <p:menuitem value="Disciplinas" url="/coord/disciplinelist.jsf" />
+					            <p:menuitem value="Matriz Curricular" url="/coord/matrizlist.jsf" />
+					            <p:menuitem value="Semestres" url="/coord/semesterlist.jsf" />
 					        </p:submenu>
 					        <p:submenu label="Administrador" rendered="#{request.isUserInRole('ROLE_ADMIN')}">
 					            <p:menuitem value="Cursos" url="/admin/courselist.jsf" icon="iconeCourse"/>

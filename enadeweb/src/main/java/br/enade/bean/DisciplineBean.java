@@ -9,7 +9,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-
 import javax.faces.application.Application;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -17,102 +16,97 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.component.UIViewRoot;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
-
 import org.primefaces.context.RequestContext;
 import br.enade.dao.CourseDAO;
-import br.enade.dao.UserDAO;
+import br.enade.dao.DisciplineDAO;
 import br.enade.model.Course;
-import br.enade.model.User;
+import br.enade.model.Discipline;
 
 /**
  *
  * @author Pedro Saraiva
  */
-@ManagedBean(name = "bcourse")
+@ManagedBean(name = "bdiscipline")
 @ViewScoped
-public class CourseBean implements Serializable {
+public class DisciplineBean implements Serializable {
 
 	private static final long serialVersionUID = 196309108760682508L;
 	// private static final Logger logger =
 	// LoggerFactory.getLogger(CourseBean.class.getName());
 
-	private Course course = new Course();
-	private CourseDAO dao = new CourseDAO();
-	private List<Course> lista;
-	private List<SelectItem> userSelect;
+	private Discipline discipline = new Discipline();
+	private DisciplineDAO dao = new DisciplineDAO();
+	private List<Discipline> lista;
+	private List<SelectItem> courseSelect;
 
-	public List<SelectItem> getUserSelect() {
-		if (this.userSelect == null) {
-			this.userSelect = new ArrayList<SelectItem>();
+	public List<SelectItem> getCourseSelect() {
+		if (this.courseSelect == null) {
+			this.courseSelect = new ArrayList<SelectItem>();
 
-			UserDAO dao = new UserDAO();
+			CourseDAO dao = new CourseDAO();
 			
-			List<User> categorias = new ArrayList<User>(new HashSet<User>(dao.listByInstitution()));
-			this.showDataSelect(this.userSelect, categorias, "");
+			List<Course> categorias = new ArrayList<Course>(new HashSet<Course>(dao.listByCoordActive()));
+			this.showDataSelect(this.courseSelect, categorias, "");
 		}
 
-		return userSelect;
+		return courseSelect;
 	}
 
-	private void showDataSelect(List<SelectItem> select, List<User> lista, String prefixo) {
+	private void showDataSelect(List<SelectItem> select, List<Course> lista, String prefixo) {
 
         SelectItem item = null;
         if (lista != null) {
-            for (User object : lista) {
-            	if(object.getRoleCoordAdministrativo()){
-	                item = new SelectItem(object, object.getName());
+            for (Course object : lista) {
+	                item = new SelectItem(object, object.getDescription());
 	                item.setEscape(false);
 	
 	                select.add(item);
-            	}
 
-                //this.montaDadosSelect(select, usuario.getNome(), prefixo + "&nbsp;&nbsp;");
             }
         }
     }
 
-	public Course getCourse() {
-		return course;
+	public Discipline getDiscipline() {
+		return discipline;
 	}
 
-	public void setCourse(Course course) {
-		this.course = course;
+	public void setDiscipline(Discipline discipline) {
+		this.discipline = discipline;
 	}
 
 	public void save() {
-		if (course.getDescription().equals("") || course.getCoordAdmin() == null) {
+		if (discipline.getDescription().equals("") || discipline.getCourse() == null) {
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Preencha os campos Obrigatórios (*)", ""));
 			return;
 		}
-		ContextBean cb = new ContextBean();
 
-		course.setDescription(course.getDescription().toUpperCase());
-		course.setInstitution(cb.getUser().getIntitution());
-		if (course.getId() == null) {
+		discipline.setDescription(discipline.getDescription().toUpperCase());
+		
+		if (discipline.getId() == null) {
 
-			if (!dao.findCourse("description", course.getDescription()).isEmpty()) {
+			if (!dao.findDiscipline("description", discipline.getDescription(), discipline.getCourse()).isEmpty()) {
 				FacesContext.getCurrentInstance().addMessage(null,
-						new FacesMessage(FacesMessage.SEVERITY_ERROR, "Descrição de Curso já Cadastrada", ""));
+						new FacesMessage(FacesMessage.SEVERITY_ERROR, "Descrição de Disciplina já Cadastrada", ""));
 				return;
-			} else if (dao.add(course)) {
+			} else if (dao.add(discipline)) {
 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
-						"Curso " + course.getDescription() + ", cadastrado com sucesso!", ""));
+						"Disciplina " + discipline.getDescription() + ", cadastrado com sucesso!", ""));
 			}
 
 		} else {
-			if (!dao.findCourse("description", course.getDescription()).isEmpty()) {
-				Course object = dao.findCourse("description", course.getDescription()).get(0);
-				if (!object.getId().equals(course.getId())) {
+			if (!dao.findDiscipline("description", discipline.getDescription(), discipline.getCourse()).isEmpty()) {
+				Discipline object = dao.findDiscipline("description", discipline.getDescription(), discipline.getCourse()).get(0);
+				if (!object.getId().equals(discipline.getId())) {
 					FacesContext.getCurrentInstance().addMessage(null,
-							new FacesMessage(FacesMessage.SEVERITY_ERROR, "Descrição de Curso já Cadastrada", ""));
+							new FacesMessage(FacesMessage.SEVERITY_ERROR, "Descrição de Disciplina já Cadastrada", ""));
 
 					return;
 				}
 			}
-			if (dao.update(course)) {
+			if (dao.update(discipline)) {
 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
-						"Curso " + course.getDescription() + ", editado com sucesso!", ""));
+						"Disciplina " + discipline.getDescription() + ", editada com sucesso!", ""));
 			}
 
 		}
@@ -133,18 +127,18 @@ public class CourseBean implements Serializable {
 		context.renderResponse();
 	}
 
-	public String newCourse() {
-		course = new Course();
+	public String newDiscipline() {
+		discipline = new Discipline();
 		RequestContext context = RequestContext.getCurrentInstance();
 		context.execute("PF('dlg').show()");
 		return "";
 	}
 
-	public List<Course> getList() {
+	public List<Discipline> getList() {
 		if (lista == null) {
 			lista = dao.list();
 		}
-		return new ArrayList<Course>(new HashSet<Course>(lista));
+		return new ArrayList<Discipline>(new HashSet<Discipline>(lista));
 	}
 
 	public String edit() {
@@ -152,16 +146,16 @@ public class CourseBean implements Serializable {
 	}
 
 	public String remove() {
-		if (dao.remove(this.course)) {
+		if (dao.remove(this.discipline)) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
-					"Curso " + course.getDescription() + ", excluído com sucesso!", ""));
+					"Disciplina " + discipline.getDescription() + ", excluído com sucesso!", ""));
 
 		} else {
 			FacesContext.getCurrentInstance()
 					.addMessage(null,
 							new FacesMessage(
-									FacesMessage.SEVERITY_ERROR, "Não foi possível excluir o curso "
-											+ course.getDescription() + ", verifique a existência de relacionamentos",
+									FacesMessage.SEVERITY_ERROR, "Não foi possível excluir a disciplina "
+											+ discipline.getDescription() + ", verifique a existência de relacionamentos",
 									""));
 		}
 

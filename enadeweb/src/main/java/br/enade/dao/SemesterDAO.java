@@ -5,26 +5,28 @@ import java.util.List;
 
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
+
 import br.enade.bean.ContextBean;
 import br.enade.model.Course;
+import br.enade.model.Semester;
 import br.maissaude.util.GenericDAO;
 import br.maissaude.util.HibernateUtil;
 
-public class CourseDAO extends GenericDAO<Course> {
+public class SemesterDAO extends GenericDAO<Semester>{
 
-	public CourseDAO() {
-		super(Course.class);
+	public SemesterDAO() {
+		super(Semester.class);
 	}
 
-	public List<Course> findCourse(String campo, Object valor) {
-		List<Course> lista = null;
+	public List<Semester> findSemester(String campo, Object valor, Course course) {
+		List<Semester> lista = null;
         try {
             this.setSessao(HibernateUtil.getSessionFactory().openSession());
             setTransacao(getSessao().beginTransaction());
             ContextBean cb = new ContextBean();
-            lista = this.getSessao().createCriteria(Course.class).
+            lista = this.getSessao().createCriteria(Semester.class).
                     add(Restrictions.eq(campo, valor)).
-                    add(Restrictions.eq("institution", cb.getUser().getIntitution())).
+                    add(Restrictions.eq("course", course)).
                     addOrder(Order.asc("description")).
                     list();
 
@@ -39,15 +41,13 @@ public class CourseDAO extends GenericDAO<Course> {
         return lista;
 	}
 
-	public List<Course> listByCoordActive() {
-		List<Course> lista = null;
+	public List<Semester> listByCourse(Course course) {
+		List<Semester> lista = null;
         try {
-        	
             this.setSessao(HibernateUtil.getSessionFactory().openSession());
             setTransacao(getSessao().beginTransaction());
-            ContextBean cb = new ContextBean();
-            lista = this.getSessao().createCriteria(Course.class).
-                    add(Restrictions.eq("coordAdmin", cb.getUser())).
+            lista = this.getSessao().createCriteria(Semester.class).
+                    add(Restrictions.eq("course", course)).
                     addOrder(Order.asc("description")).
                     list();
 

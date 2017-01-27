@@ -27,6 +27,9 @@
         <mapping class="br.enade.model.Institution"/>
         <mapping class="br.enade.model.User"/>
         <mapping class="br.enade.model.Course"/>
+        <mapping class="br.enade.model.Semester"/>
+        <mapping class="br.enade.model.Discipline"/>
+        <mapping class="br.enade.model.MatrizCurricular"/>
         
     </session-factory>
 </hibernate-configuration>
